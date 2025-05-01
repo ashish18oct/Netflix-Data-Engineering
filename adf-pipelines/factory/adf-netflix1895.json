@@ -1,0 +1,9 @@
+{
+	"name": "adf-netflix1895",
+	"location": "francecentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "7d8d450e-3735-4941-8119-faa329116d6f",
+		"tenantId": "c31ade52-396d-4f00-8603-9d2829a3d9ea"
+	}
+}
