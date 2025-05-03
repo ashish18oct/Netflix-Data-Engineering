@@ -80,7 +80,7 @@ A modern data engineering pipeline leveraging Azure Data Factory, Azure Data Lak
 
 1. **Clone the Repository**
 ```bash
-git clone [https://github.com/your-username/netflix-data-engineering.git ](https://github.com/ashish18oct/Netflix-Data-Engineering.git)
+git clone https://github.com/ashish18oct/Netflix-Data-Engineering.git
 ```
 
 2. **Configure Databricks CLI**
