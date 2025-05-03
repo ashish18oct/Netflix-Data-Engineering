@@ -114,12 +114,6 @@ databricks configure --token
 
 ---
 
-## 📜 License
-
-This project is under the [MIT License](./LICENSE).
-
----
-
 ## 🙌 Acknowledgements
 
 - Netflix open dataset (for demonstration purposes)
