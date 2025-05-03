@@ -1,0 +1,63 @@
+{
+  "job_id": 13561905255238,
+  "creator_user_name": "as34445@hotmail.com",
+  "run_as_user_name": "as34445@hotmail.com",
+  "run_as_owner": true,
+  "settings": {
+    "name": "Silver Layer Workflow",
+    "email_notifications": {
+      "no_alert_for_skipped_runs": false
+    },
+    "webhook_notifications": {},
+    "timeout_seconds": 0,
+    "max_concurrent_runs": 1,
+    "tasks": [
+      {
+        "task_key": "Lookup_Locations",
+        "run_if": "ALL_SUCCESS",
+        "notebook_task": {
+          "notebook_path": "/Workspace/Netflix Project/3_lookupNotebook",
+          "source": "WORKSPACE"
+        },
+        "timeout_seconds": 0,
+        "email_notifications": {},
+        "webhook_notifications": {}
+      },
+      {
+        "task_key": "Silver_Notebook",
+        "depends_on": [
+          {
+            "task_key": "Lookup_Locations"
+          }
+        ],
+        "run_if": "ALL_SUCCESS",
+        "for_each_task": {
+          "inputs": "{{tasks.Lookup_Locations.values.my_arr}}",
+          "task": {
+            "task_key": "Silver_Notebook_iteration",
+            "run_if": "ALL_SUCCESS",
+            "notebook_task": {
+              "notebook_path": "/Workspace/Netflix Project/2_silver",
+              "base_parameters": {
+                "sourcefolder": "{{input.sourcefolder}}",
+                "targetfolder": "{{input.targetfolder}}"
+              },
+              "source": "WORKSPACE"
+            },
+            "timeout_seconds": 0,
+            "email_notifications": {},
+            "webhook_notifications": {}
+          }
+        },
+        "timeout_seconds": 0,
+        "email_notifications": {},
+        "webhook_notifications": {}
+      }
+    ],
+    "format": "MULTI_TASK",
+    "queue": {
+      "enabled": true
+    }
+  },
+  "created_time": 1745369427229
+}

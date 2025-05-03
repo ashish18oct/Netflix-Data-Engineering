@@ -1,0 +1,87 @@
+{
+  "job_id": 3417076955864,
+  "creator_user_name": "as34445@hotmail.com",
+  "run_as_user_name": "as34445@hotmail.com",
+  "run_as_owner": true,
+  "settings": {
+    "name": "Silver Layer Master Workflow",
+    "email_notifications": {
+      "no_alert_for_skipped_runs": false
+    },
+    "webhook_notifications": {},
+    "timeout_seconds": 0,
+    "max_concurrent_runs": 1,
+    "tasks": [
+      {
+        "task_key": "Weekday_lookup",
+        "run_if": "ALL_SUCCESS",
+        "notebook_task": {
+          "notebook_path": "/Workspace/Netflix Project/5_LookupNotebook",
+          "base_parameters": {
+            "weekday": "{{job.start_time.iso_weekday}}"
+          },
+          "source": "WORKSPACE"
+        },
+        "timeout_seconds": 0,
+        "email_notifications": {},
+        "webhook_notifications": {}
+      },
+      {
+        "task_key": "If_weekday",
+        "depends_on": [
+          {
+            "task_key": "Weekday_lookup"
+          }
+        ],
+        "run_if": "ALL_SUCCESS",
+        "condition_task": {
+          "op": "EQUAL_TO",
+          "left": "{{tasks.Weekday_lookup.values.weekoutput}}",
+          "right": "7"
+        },
+        "timeout_seconds": 0,
+        "email_notifications": {},
+        "webhook_notifications": {}
+      },
+      {
+        "task_key": "silver_master_data",
+        "depends_on": [
+          {
+            "task_key": "If_weekday",
+            "outcome": "true"
+          }
+        ],
+        "run_if": "ALL_SUCCESS",
+        "notebook_task": {
+          "notebook_path": "/Workspace/Netflix Project/4_Silver",
+          "source": "WORKSPACE"
+        },
+        "timeout_seconds": 0,
+        "email_notifications": {},
+        "webhook_notifications": {}
+      },
+      {
+        "task_key": "FalseNotebook",
+        "depends_on": [
+          {
+            "task_key": "If_weekday",
+            "outcome": "false"
+          }
+        ],
+        "run_if": "ALL_SUCCESS",
+        "notebook_task": {
+          "notebook_path": "/Workspace/Netflix Project/6_falseNotebook",
+          "source": "WORKSPACE"
+        },
+        "timeout_seconds": 0,
+        "email_notifications": {},
+        "webhook_notifications": {}
+      }
+    ],
+    "format": "MULTI_TASK",
+    "queue": {
+      "enabled": true
+    }
+  },
+  "created_time": 1745581590659
+}
